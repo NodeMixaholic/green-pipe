@@ -18,6 +18,7 @@
   "homepage": "https://github.com/sparksammy/green-pipe#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "usetube": "^2.1.4"
+    "usetube": "^2.1.4",
+    "youtube-mp3-converter": "^1.0.3"
   }
 }
