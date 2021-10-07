@@ -26,7 +26,8 @@ app.get('/', function(req, res){
 app.get('/playback', function(req, res){
     let id = req.query.id
     async function dlAndPlay() {
-        let mp3Name = `${id}-${Math.floor(Math.random() * 10000000)}`
+        //let mp3Name = `${id}-${Math.floor(Math.random() * 10000000)}`
+        let mp3Name = `${id}`
         const convertLinkToMp3 = youtubeMp3Converter(path.join(__dirname, "music"))
         await convertLinkToMp3(`https://www.youtube.com/watch?v=${id}`, {
             title: `${mp3Name}`
