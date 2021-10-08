@@ -4,6 +4,7 @@ var express = require('express')
 const usetube = require('usetube')
 const youtubeMp3Converter = require('youtube-mp3-converter')
 var path = require('path')
+const fs = require('fs');
 var app = express();
 
 
@@ -25,15 +26,27 @@ app.get('/', function(req, res){
 
 app.get('/playback', function(req, res){
     let id = req.query.id
+    let mp3Name = `${id}-${Math.floor(Math.random() * 10000000)}`
+    let filepath = path.join(__dirname, "music", `${mp3Name}.mp3`);
     async function dlAndPlay() {
-        let mp3Name = `${id}-${Math.floor(Math.random() * 10000000)}`
         //let mp3Name = `${id}`
         const convertLinkToMp3 = youtubeMp3Converter(path.join(__dirname, "music"))
         await convertLinkToMp3(`https://www.youtube.com/watch?v=${id}`, {
             title: `${mp3Name}`
         })
-        let filepath = path.join(__dirname, "music", `${mp3Name}.mp3`);
-        res.status(200).sendFile(filepath)
+        await res.status(200).sendFile(filepath)
+        await new Promise(r => setTimeout(r, 2000));
+        try {
+            fs.unlink(filepath, (err) => {
+        if (err) {
+            console.log(err);
+        }
+        });
+
+        console.log("File is deleted.");
+        } catch {
+        console.log("Error deleting file. Error above.");
+        }
     }
     dlAndPlay()
 });
